@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RingSense Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f3f4f6, #e0e7ff);
+      color: #333;
+    }
+    header {
+      background: linear-gradient(to right, #2b2d42, #4a4e69);
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    header h1 {
+      margin: 0;
+    }
+    .cart-count {
+      background-color: #ef233c;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-left: 0.5rem;
+      font-weight: bold;
+    }
+    .slogan {
+      text-align: center;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      color: #2b2d42;
+      font-style: italic;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+    .product {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+    .product img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+    .product h3 {
+      margin: 0.8rem 0 0.5rem;
+      font-size: 1.1rem;
+      color: #2b2d42;
+    }
+    .product p {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+    .product button {
+      padding: 0.5rem 1rem;
+      background: #2b2d42;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.3s ease;
+    }
+    .product button:hover {
+      background: #1f2235;
+    }
+    .product button.remove {
+      background-color: #ef233c;
+      margin-top: 0.5rem;
+    }
+    .product button.remove:hover {
+      background-color: #c21e2a;
+    }
+    #payment-section {
+      display: none;
+      max-width: 420px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    #payment-section h2 {
+      margin-top: 0;
+      color: #2b2d42;
+    }
+    #payment-section label {
+      display: block;
+      margin: 0.5rem 0 0.3rem;
+      color: #333;
+    }
+    #payment-section input, #payment-section select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    #payment-section button {
+      width: 100%;
+      background-color: #2b2d42;
+      color: white;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #payment-section button:hover {
+      background-color: #1d1f31;
+    }
+    #total-display {
+      text-align: center;
+      font-size: 1.3rem;
+      margin: 1.5rem auto 1rem;
+      color: #2b2d42;
+    }
+    .checkout-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .checkout-container button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      background: #2b2d42;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .checkout-container button:hover {
+      background-color: #1d1f31;
+    }
+    footer {
+      background: #2b2d42;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+    .footer-links a {
+      color: #f0f0f0;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RingSense Store</h1>
+    <div>Cart Items: <span class="cart-count" id="cart-count">0</span></div>
+  </header>
+
+  <div class="slogan">Safety You Can Wear. Style You Can Flaunt</div>
+
+  <main class="products" id="product-list">
+    <div class="product" data-id="1">
+      <img src="https://via.placeholder.com/100" alt="Ring 1" />
+      <h3>RingSense Basic</h3>
+      <p>$99</p>
+      <button onclick="addToCart(1)">Add to Cart</button>
+      <button class="remove" onclick="removeFromCart(1)">Remove</button>
+    </div>
+    <div class="product" data-id="2">
+      <img src="https://via.placeholder.com/100" alt="Ring 2" />
+      <h3>RingSense Pro</h3>
+      <p>$149</p>
+      <button onclick="addToCart(2)">Add to Cart</button>
+      <button class="remove" onclick="removeFromCart(2)">Remove</button>
+    </div>
+    <div class="product" data-id="3">
+      <img src="https://via.placeholder.com/100" alt="Ring 3" />
+      <h3>RingSense Ultra</h3>
+      <p>$199</p>
+      <button onclick="addToCart(3)">Add to Cart</button>
+      <button class="remove" onclick="removeFromCart(3)">Remove</button>
+    </div>
+  </main>
+
+  <div class="checkout-container">
+    <div id="total-display">Total: $0</div>
+    <button onclick="checkout()">Checkout</button>
+  </div>
+
+  <section id="payment-section">
+    <h2>Payment Details</h2>
+    <label for="payment-method">Payment Method</label>
+    <select id="payment-method">
+      <option>Credit Card</option>
+      <option>UPI</option>
+      <option>PayPal</option>
+    </select>
+
+    <label for="card-number">Card Number</label>
+    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" />
+
+    <label for="expiry">Expiry</label>
+    <input type="text" id="expiry" placeholder="MM/YY" />
+
+    <label for="cvv">CVV</label>
+    <input type="text" id="cvv" placeholder="123" />
+
+    <button onclick="alert('This is a demo. Payment not processed.')">Pay $<span id="total-amount">0</span></button>
+  </section>
+
+  <footer>
+    <div>&copy; 2025 RingSense Technologies. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/ringsense.official?igsh=d3hnM2tpd3VuaHV6" target="_blank">Instagram</a> |
+      <a href="mailto:ringsenseoffical10@gmail.com">Gmail</a>
+    </div>
+  </footer>
+
+  <script>
+    const cart = {};
+    const prices = {
+      1: 99,
+      2: 149,
+      3: 199
+    };
+
+    function updateCartCount() {
+      const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
+      document.getElementById('cart-count').textContent = totalItems;
+      updateTotal();
+    }
+
+    function addToCart(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      updateCartCount();
+    }
+
+    function removeFromCart(id) {
+      if (cart[id]) {
+        cart[id]--;
+        if (cart[id] <= 0) delete cart[id];
+      }
+      updateCartCount();
+    }
+
+    function updateTotal() {
+      let total = 0;
+      for (let id in cart) {
+        total += cart[id] * prices[id];
+      }
+      document.getElementById('total-display').textContent = Total: $${total};
+      document.getElementById('total-amount').textContent = total;
+    }
+
+    function checkout() {
+      document.getElementById('payment-section').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
